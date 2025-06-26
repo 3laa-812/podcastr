@@ -13,4 +13,8 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 ];
 
-export default eslintConfig;
+// Add ignores property for ESLint v9+
+export default {
+  ...eslintConfig,
+  ignores: ["tailwind.config.cjs"],
+};
