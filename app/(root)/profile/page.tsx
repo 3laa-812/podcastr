@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
 
 const Profile = () => {
   return (
-    <div>Profile</div>
-  )
-}
+    <div>
+      <section className="flex flex-col gap-2">
+        <h1 className="text-2xl font-bold">Profile</h1>
+      </section>
+    </div>
+  );
+};
 
-export default Profile
+export default Profile;

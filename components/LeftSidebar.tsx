@@ -28,7 +28,7 @@ const LeftSidebar = () => {
               className={cn(
                 "flex gap-3 items-center py-4 max-lg:px-4 lg:justify-start justify-center",
                 {
-                  "fade-indicator bg-gradient-to-l from-gray-700 to-[#15171C] border-r-4 border-[#F97535]":
+                  "fade-indicator transition-colors duration-150 bg-gradient-to-l from-gray-700 to-[#15171C] border-r-4 border-[#F97535]":
                     isActive,
                 }
               )}
