@@ -43,16 +43,21 @@ const formSchema = z.object({
 
 const CreatePodcast = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const [voicePrompt, setVoicePrompt] = useState("");
   const [voiceType, setVoiceType] = useState<string | null>(null);
-  
+
   const [imagePrompt, setImagePrompt] = useState("");
-  const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null);
-  const [imageUrl, setImageUrl] = useState('');
-  
+  const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(
+    null
+  );
+  const [imageUrl, setImageUrl] = useState("");
+
   const [audioUrl, setAudioUrl] = useState("");
-  const [audioStorageId, setAudioStorageId] = useState<Id<"_storage"> | null>(null);
+  const [audioDuration, setAudioDuration] = useState(0);
+  const [audioStorageId, setAudioStorageId] = useState<Id<"_storage"> | null>(
+    null
+  );
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -84,13 +89,13 @@ const CreatePodcast = () => {
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-2.5">
                   <FormLabel className="text-[16px] font-bold">
-                    Username
+                    Title
                   </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Our Pro Podcast"
                       {...field}
-                      className="focus-visible:ring-[#F97535] text-[16px] placeholder:text-[16px] bg-[#15171C] rounded-[6px] placeholder:text-[#71788B] border-none text-[#71788B]"
+                      className="focus-visible:ring-offset-[#F97535] text-[16px] placeholder:text-[16px] bg-[#15171C] rounded-[6px] placeholder:text-[#71788B] border-none text-[#71788B]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -111,7 +116,7 @@ const CreatePodcast = () => {
                     className="placeholder:text-[#71788B]"
                   />
                 </SelectTrigger>
-                <SelectContent className="text-[16px] bg-[#15171C] border-none font-bold focus:ring-[#F97535]">
+                <SelectContent className="text-[16px] bg-[#15171C] border-none font-bold focus-visible:ring-offset-[#F97535]">
                   {voiceDetails.map(({ name, id }) => (
                     <SelectItem
                       key={id}
@@ -143,7 +148,7 @@ const CreatePodcast = () => {
                     <Textarea
                       placeholder="Write a short podcast description"
                       {...field}
-                      className="focus-visible:ring-[#F97535] text-[16px] placeholder:text-[16px] bg-[#15171C] rounded-[6px] placeholder:text-[#71788B] border-none text-[#71788B]"
+                      className="focus-visible:ring-offset-[#F97535] text-[16px] placeholder:text-[16px] bg-[#15171C] rounded-[6px] placeholder:text-[#71788B] border-none text-[#71788B]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -152,19 +157,19 @@ const CreatePodcast = () => {
             />
           </div>
           <div className="flex flex-col pt-10">
-            <GeneratePodcast 
-            setAudioStorageId={setAudioStorageId}
-            setAudio={setAudioUrl}
-            voiceType={voiceType}
-            audio={audioUrl}
-            setVoicePrompt={setVoicePrompt}
-            voicePrompt={voicePrompt}
-            setAudioDuration={setAudioDuration}
+            <GeneratePodcast
+              setAudioStorageId={setAudioStorageId}
+              setAudio={setAudioUrl}
+              voiceType={voiceType}
+              audio={audioUrl}
+              setVoicePrompt={setVoicePrompt}
+              voicePrompt={voicePrompt}
+              setAudioDuration={setAudioDuration}
             />
             <GenerateThumbnail />
             <div className="mt-10 w-full">
               <Button
-                className="text-[16px] w-full bg-[#F97535] py-4 font-extrabold transition-all duration-500 hover:bg-[#15171C] text-white"
+                className="cursor-pointer text-[16px] w-full bg-[#F97535] py-4 font-extrabold transition-all duration-500 hover:bg-[#15171C] text-white"
                 type="submit"
               >
                 {isSubmitting ? (
