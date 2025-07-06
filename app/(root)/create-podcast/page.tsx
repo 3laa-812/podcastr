@@ -45,7 +45,7 @@ const CreatePodcast = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [voicePrompt, setVoicePrompt] = useState("");
-  const [voiceType, setVoiceType] = useState<string | null>(null);
+  const [voiceType, setVoiceType] = useState<string>("");
 
   const [imagePrompt, setImagePrompt] = useState("");
   const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(
@@ -88,9 +88,7 @@ const CreatePodcast = () => {
               name="podcastTitle"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-2.5">
-                  <FormLabel className="text-[16px] font-bold">
-                    Title
-                  </FormLabel>
+                  <FormLabel className="text-[16px] font-bold">Title</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Our Pro Podcast"
