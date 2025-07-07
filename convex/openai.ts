@@ -20,3 +20,27 @@ export const generateAudioAction = action({
     }
   },
 });
+// quickstart-QUdJIGlzIGNvbWluZy4uLi4K
+export const generateThumbnailAction = action({
+  args: { prompt: v.string() },
+  handler: async (_, { prompt }) => {
+    const res = await fetch(
+      "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt)
+    );
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("Pollinations failed:", text);
+      throw new Error("Pollinations image generation error");
+    }
+    const buffer = await res.arrayBuffer();
+    // Return a base64 URL so frontend can show it
+    const base64 = Buffer.from(buffer).toString("base64");
+    return { thumbnailBase64: "data:image/jpeg;base64," + base64 };
+    /*
+    const thumbnailUrl = json.image; // image URL
+    const thumbnailResponse = await fetch(thumbnailUrl);
+    const buffer = await thumbnailResponse.arrayBuffer();
+    return buffer;
+*/
+  },
+});

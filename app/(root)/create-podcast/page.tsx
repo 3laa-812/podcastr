@@ -31,6 +31,10 @@ import GeneratePodcast from "@/components/GeneratePodcast";
 import GenerateThumbnail from "@/components/GenerateThumbnail";
 import { Loader } from "lucide-react";
 import { Id } from "@/convex/_generated/dataModel";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   podcastTitle: z.string().min(6, {
@@ -42,6 +46,7 @@ const formSchema = z.object({
 });
 
 const CreatePodcast = () => {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [voicePrompt, setVoicePrompt] = useState("");
@@ -59,6 +64,8 @@ const CreatePodcast = () => {
     null
   );
 
+  const createPodcast = useMutation(api.podcasts.createPodcast);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,9 +76,34 @@ const CreatePodcast = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setIsSubmitting(true);
+      if(!audioUrl || !imageUrl || !voiceType) {
+        toast("Please generate audio and image before submitting");
+        setIsSubmitting(false);
+        throw new Error("Please generate audio and image before submitting");
+      }
+      const podcast = await createPodcast({
+        title: values.podcastTitle,
+        description: values.podcastDescription,
+        audioUrl,
+        audioDuration,
+        audioStorageId: audioStorageId!,
+        imageUrl,
+        imageStorageId: imageStorageId!,
+        voiceType,
+        voicePrompt,
+        imagePrompt,
+        views: 0
+      })
+      toast("Podcast created successfully!");
+      setIsSubmitting(false);
+      router.push('/');
+    } catch (error) {
+      console.log(error);
+      toast("Error creating podcast");
+    }
     console.log(values);
   }
   return (
@@ -164,7 +196,13 @@ const CreatePodcast = () => {
               voicePrompt={voicePrompt}
               setAudioDuration={setAudioDuration}
             />
-            <GenerateThumbnail />
+            <GenerateThumbnail 
+            setImage={setImageUrl}
+            setImageStorageId={setImageStorageId}
+            image={imageUrl}
+            imagePrompt={imagePrompt}
+            setImagePrompt={setImagePrompt}
+            />
             <div className="mt-10 w-full">
               <Button
                 className="cursor-pointer text-[16px] w-full bg-[#F97535] py-4 font-extrabold transition-all duration-500 hover:bg-[#15171C] text-white"

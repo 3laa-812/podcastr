@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "sleek-capybara-771.convex.cloud",
+        hostname: "marvelous-egret-409.convex.cloud",
       },
       {
         protocol: "https",
