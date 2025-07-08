@@ -1,9 +1,7 @@
 "use client";
 
 import PodcastCard from "@/components/PodcastCard";
-import { podcastData } from "@/constants";
 import React from "react";
-import Image from "next/image";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
@@ -20,8 +18,8 @@ const Home = () => {
                 key={_id}
                 title={podcastTitle}
                 description={podcastDescription}
-                imgURL={imageUrl || ""}
-                podcastId={Number(_id)}
+                imgUrl={imageUrl || "/images/p-6.png"}
+                podcastId={_id}
               />
             )
           )}
