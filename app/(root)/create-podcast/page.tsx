@@ -79,14 +79,14 @@ const CreatePodcast = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setIsSubmitting(true);
-      if(!audioUrl || !imageUrl || !voiceType) {
+      if (!audioUrl || !imageUrl || !voiceType) {
         toast("Please generate audio and image before submitting");
         setIsSubmitting(false);
         throw new Error("Please generate audio and image before submitting");
       }
       const podcast = await createPodcast({
-        title: values.podcastTitle,
-        description: values.podcastDescription,
+        podcastTitle: values.podcastTitle,
+        podcastDescription: values.podcastDescription,
         audioUrl,
         audioDuration,
         audioStorageId: audioStorageId!,
@@ -95,11 +95,11 @@ const CreatePodcast = () => {
         voiceType,
         voicePrompt,
         imagePrompt,
-        views: 0
-      })
+        views: 0,
+      });
       toast("Podcast created successfully!");
       setIsSubmitting(false);
-      router.push('/');
+      router.push("/");
     } catch (error) {
       console.log(error);
       toast("Error creating podcast");
@@ -196,12 +196,12 @@ const CreatePodcast = () => {
               voicePrompt={voicePrompt}
               setAudioDuration={setAudioDuration}
             />
-            <GenerateThumbnail 
-            setImage={setImageUrl}
-            setImageStorageId={setImageStorageId}
-            image={imageUrl}
-            imagePrompt={imagePrompt}
-            setImagePrompt={setImagePrompt}
+            <GenerateThumbnail
+              setImage={setImageUrl}
+              setImageStorageId={setImageStorageId}
+              image={imageUrl}
+              imagePrompt={imagePrompt}
+              setImagePrompt={setImagePrompt}
             />
             <div className="mt-10 w-full">
               <Button

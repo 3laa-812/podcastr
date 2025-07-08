@@ -1,13 +1,16 @@
 "use client";
 import { sidebarLinks } from "@/constants";
 import { cn } from "@/lib/utils";
+import { SignedIn, SignedOut, useClerk } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { Button } from "./ui/button";
 
 const LeftSidebar = () => {
   const pathName = usePathname();
   const router = useRouter();
+  const { signOut } = useClerk();
   return (
     <section className="sticky left-0 top-0 flex w-fit flex-col justify-between border-none bg-[#15171C] pt-8 max-md:hidden lg:w-[270px] lg:pl-8">
       <nav>
@@ -39,6 +42,26 @@ const LeftSidebar = () => {
           );
         })}
       </nav>
+      <SignedOut>
+        <div className="flex items-center justify-center pb-14 max-lg:px-4 lg:pr-8">
+          <Button
+            asChild
+            className="text-white bg-[#F97535] hover:bg-[#F97535] font-extrabold text-[16px]"
+          >
+            <Link href={"/sign-in"}>Sign In</Link>
+          </Button>
+        </div>
+      </SignedOut>
+      <SignedIn>
+        <div className="flex items-center justify-center pb-14 max-lg:px-4 lg:pr-8">
+          <Button
+            onClick={() => signOut(() => router.push("/"))}
+            className="text-white bg-[#F97535] hover:bg-[#F97535] font-extrabold text-[16px]"
+          >
+            Log Out
+          </Button>
+        </div>
+      </SignedIn>
     </section>
   );
 };
