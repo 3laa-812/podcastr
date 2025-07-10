@@ -6,7 +6,7 @@ Welcome to the **AI Podcast Platform** – a cutting-edge AI-powered SaaS applic
 
 ## 🚀 Demo
 
-> [Live Demo]()
+> [Live Demo](https://podcastr-eta-one.vercel.app/)
 
 
 ## 🤖 Introduction
@@ -51,6 +51,12 @@ This project is built with:
 
 ---
 
+If you found this project helpful, consider giving it a ⭐ and sharing it!
+
 ---
 
-If you found this project helpful, consider giving it a ⭐ and sharing it!
+## 👤 Author
+
+Made with ❤️ by **3laa**
+
+---
