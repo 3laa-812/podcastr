@@ -9,7 +9,7 @@ import { useQuery } from "convex/react";
 import React from "react";
 import { useSearchParams } from "next/navigation";
 
-const Discover = () => {
+function DiscoverContent() {
   const searchParams = useSearchParams();
   const search = searchParams.get("search") || "";
   const podcastsData = useQuery(api.podcasts.getPodcastBySearch, {
@@ -50,6 +50,12 @@ const Discover = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Discover;
+export default function Discover() {
+  return (
+    <React.Suspense fallback={<LoaderSpinner />}>
+      <DiscoverContent />
+    </React.Suspense>
+  );
+}
