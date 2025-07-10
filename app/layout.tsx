@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import  ConvexClerkProvider  from "./providers/ConvexClerkProvider";
+import  ConvexClerkProvider  from "../providers/ConvexClerkProvider";
+import AudioProvider from "@/providers/AudioProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const manrope = Manrope({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Podcastr",
@@ -28,17 +21,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ConvexClerkProvider>{children}</ConvexClerkProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <ConvexClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <AudioProvider>
+          <body className={manrope.className}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </body>
+        </AudioProvider>
+      </html>
+    </ConvexClerkProvider>
   );
 }

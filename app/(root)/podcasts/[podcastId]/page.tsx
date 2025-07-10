@@ -14,15 +14,16 @@ import React from "react";
 const PodcastDetails = ({
   params,
 }: {
-  params: { podcastId: Id<"podcasts"> };
+  params: Promise<{ podcastId: Id<"podcasts"> }>;
 }) => {
   const { user } = useUser();
+  const { podcastId } = React.use(params);
   const podcast = useQuery(api.podcasts.getPodcastById, {
-    podcastId: params.podcastId,
+    podcastId,
   });
 
   const similarPodcasts = useQuery(api.podcasts.getPodcastByVoiceType, {
-    podcastId: params.podcastId,
+    podcastId,
   });
 
   if (!similarPodcasts || !podcast) {

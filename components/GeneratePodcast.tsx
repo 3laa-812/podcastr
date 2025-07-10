@@ -11,6 +11,21 @@ import { generateUploadUrl } from "@/convex/files";
 import { useUploadFiles } from "@xixixao/uploadstuff/react";
 import { toast } from "sonner";
 
+// Helper to convert dataURL to Blob
+function dataURLtoBlob(dataurl: string) {
+  const arr = dataurl.split(",");
+  const mimeMatch = arr[0].match(/:(.*?);/);
+  if (!mimeMatch) throw new Error("Invalid data URL: cannot extract mime type");
+  const mime = mimeMatch[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], { type: mime });
+}
+
 const useGeneratePodcast = ({
   voicePrompt,
   setVoicePrompt,
@@ -35,13 +50,9 @@ const useGeneratePodcast = ({
     }
     try {
       const response = await getPodcastAudio({ input: voicePrompt });
-      const byteCharacters = atob(response);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: "audio/mpeg" });
+      setAudio(response);
+
+      const blob = dataURLtoBlob(response);
       const fileName = `podcast-${uuidv4()}.mp3`;
       const file = new File([blob], fileName, { type: "audio/mpeg" });
 

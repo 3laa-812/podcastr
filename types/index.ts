@@ -51,7 +51,7 @@ export interface ProfilePodcastProps {
 }
 
 export interface GeneratePodcastProps {
-  voiceType: string ;
+  voiceType: string;
   setAudio: Dispatch<SetStateAction<string>>;
   audio: string;
   setAudioStorageId: Dispatch<SetStateAction<Id<"_storage"> | null>>;
@@ -86,8 +86,8 @@ export interface PodcastDetailPlayerProps {
   isOwner: boolean;
   imageUrl: string;
   podcastId: Id<"podcasts">;
-  imageStorageId: Id<"_storage">;
-  audioStorageId: Id<"_storage">;
+  imageStorageId?: Id<"_storage">;
+  audioStorageId?: Id<"_storage">;
   authorImageUrl: string;
   authorId: string;
 }
@@ -106,7 +106,7 @@ export interface AudioContextType {
 }
 
 export interface PodcastCardProps {
-  imgUrl: string ;
+  imgUrl: string;
   title: string;
   description: string;
   podcastId: Id<"podcasts">;
