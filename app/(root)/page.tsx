@@ -8,7 +8,7 @@ import { api } from "@/convex/_generated/api";
 const Home = () => {
   const podcasts = useQuery(api.podcasts.getTrendingPodcasts);
   return (
-    <div className="flex flex-col gap-2">
+    <div className="md:overflow-hidden flex flex-col gap-2">
       <section className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold">Trending podcasts</h1>
         <div className=" grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">

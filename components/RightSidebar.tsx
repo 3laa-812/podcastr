@@ -9,22 +9,32 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
 import LoaderSpinner from "./LoaderSpinner";
+import { useAudio } from "@/providers/AudioProvider";
+import { cn } from "@/lib/utils";
 
 const RightSidebar = () => {
   const { user } = useUser();
+  const { audio } = useAudio();
 
   const topPodcasters = useQuery(api.users.getTopUserByPodcastCount);
-
   const router = useRouter();
 
   const topPodcastersSafe =
     topPodcasters?.map((p) => ({ ...p, imageUrl: p.imageUrl ?? "" })) ?? [];
 
-    if(!topPodcasters) {
-      return <LoaderSpinner />
-    }
+  if (!topPodcasters) {
+    return <LoaderSpinner />;
+  }
+
   return (
-    <section className="sticky right-0 top-0 flex w-[310px] flex-col overflow-y-hidden border-none bg-[#15171C] px-[30px] pt-8 max-xl:hidden">
+    <section
+      className={cn(
+        "h-[calc(100vh-5px)] sticky right-0 top-0 flex w-[310px] flex-col overflow-y-hidden border-none bg-[#15171C] px-[30px] pt-8 max-xl:hidden",
+        {
+          "h-[calc(100vh-40px)]": audio?.audioUrl,
+        }
+      )}
+    >
       <SignedIn>
         <Link href={`/profile/${user?.id}`} className="flex gap-3 pb-12">
           <UserButton />
@@ -46,23 +56,28 @@ const RightSidebar = () => {
         <Carousel fansLikeDetail={topPodcastersSafe} />
       </section>
       <section className="flex flex-col gap-8 pt-12">
-        <Header headerTitle="Your Top Podcasts"/>
+        <Header headerTitle="Your Top Podcasts" />
         <div className="flex flex-col gap-6">
           {topPodcastersSafe.map((podcaster) => (
-            <div key={podcaster._id}
-            className="flex cursor-pointer justify-between"
-            onClick={() => router.push(`/profile/${podcaster.clerkId}`)}>
+            <div
+              key={podcaster._id}
+              className="flex cursor-pointer justify-between"
+              onClick={() => router.push(`/profile/${podcaster.clerkId}`)}
+            >
               <figure className="flex items-center gap-2">
                 <Image
                   src={podcaster.imageUrl}
                   alt={podcaster.name}
                   width={44}
                   height={44}
-                  className="aspect-square rounded-lg"/>
-                    <h2 className="text-[15px] font-semibold">{podcaster.name}</h2>
+                  className="aspect-square rounded-lg"
+                />
+                <h2 className="text-[15px] font-semibold">{podcaster.name}</h2>
               </figure>
               <div className="flex items-center">
-                <p className="text-[14px] font-normal">{podcaster.totalPodcasts} podcasts</p>
+                <p className="text-[14px] font-normal">
+                  {podcaster.totalPodcasts} podcasts
+                </p>
               </div>
             </div>
           ))}

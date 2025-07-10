@@ -30,6 +30,10 @@ const PodcastDetails = ({
     return <LoaderSpinner />;
   }
 
+  if (!podcast.audioStorageId || !podcast.imageStorageId) {
+    return <LoaderSpinner />; // or some fallback
+  }
+
   const isOwner = user?.id === podcast?.authorId;
 
   return (
@@ -49,7 +53,13 @@ const PodcastDetails = ({
       <PodcastDetailPlayer
         isOwner={isOwner}
         {...podcast}
+        audioUrl={podcast.audioUrl ?? ""}
+        imageUrl={podcast.imageUrl ?? ""}
+        audioStorageId={podcast.audioStorageId}
+        imageStorageId={podcast.imageStorageId}
         podcastId={podcast._id}
+        authorImageUrl={podcast.authorImageUrl ?? ""}
+        author={podcast.author ?? ""}
       />
       <p className="text-[16px] pb-8 pt-[45px] font-medium max-md:text-center text-[#FFFFFFB8]">
         {podcast?.podcastDescription}
@@ -78,7 +88,7 @@ const PodcastDetails = ({
                   key={_id}
                   title={podcastTitle}
                   description={podcastDescription}
-                  imgUrl={imageUrl || "/images/p-6.png"}
+                  imgUrl={imageUrl!}
                   podcastId={_id}
                 />
               )

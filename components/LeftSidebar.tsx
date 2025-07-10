@@ -6,13 +6,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
+import { useAudio } from "@/providers/AudioProvider";
 
 const LeftSidebar = () => {
   const pathName = usePathname();
   const router = useRouter();
   const { signOut } = useClerk();
+  const { audio } = useAudio();
   return (
-    <section className="sticky left-0 top-0 flex w-fit flex-col justify-between border-none bg-[#15171C] pt-8 max-md:hidden lg:w-[270px] lg:pl-8">
+    <section
+      className={cn(
+        "h-[calc(100vh-5px)] sticky left-0 top-0 flex w-fit flex-col justify-between border-none bg-[#15171C] pt-8 max-md:hidden lg:w-[270px] lg:pl-8",
+        {
+          "h-[calc(100vh-140px)]": audio?.audioUrl,
+        }
+      )}
+    >
       <nav>
         <Link
           href="/"
